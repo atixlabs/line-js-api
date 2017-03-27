@@ -20,12 +20,12 @@ Package.onUse(function(api) {
   api.use('accounts-oauth', ['client', 'server']);
   api.use(['underscore', 'service-configuration'], ['client', 'server']);
   api.use(['random', 'templating'], 'client');
-  // api.mainModule('line-accounts.js');
+  api.export('LineApi');
     
-  //api.addFiles(['line_configure.html', 'line_configure.js'], 'client');
   api.addFiles('line-common.js', ['client', 'server']);
   api.addFiles('line-server.js', 'server');
   api.addFiles('line-client.js', 'client');
+  api.addFiles('line-messaging-api.js', 'server');
 });
 
 Package.onTest(function(api) {

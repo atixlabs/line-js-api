@@ -12,9 +12,8 @@ OAuth.registerService('line', 2, null, function(query) {
   // Set the service data.
   var serviceData = {
     accessToken: response.accessToken,
-    expiresAt: (+new Date) + (1000 * response.expiresIn)
+    expiresAt: response.expiresIn
   };
-
   // Set refresh token.
   if (refreshToken) {
     serviceData.refreshToken = refreshToken;
@@ -42,7 +41,7 @@ var isJSON = function (str) {
 /*
   Helper function that returns an object with:
     accessToken (token itself)
-    expiresIn (token lifespan)
+    expiresIn (token lifespan in epoch)
     refreshToken
  */
 var getTokens = function(query) {
@@ -70,8 +69,8 @@ var getTokens = function(query) {
   } else {
     return {
       accessToken: response.data.accessToken,
-      refreshToken: response.data.refresh_token,
-      expiresIn: response.data.expires_in
+      refreshToken: response.data.refreshToken,
+      expiresIn: response.data.expire
     };
   }
 };
