@@ -25,7 +25,7 @@ Line.requestCredential = function (options, credentialRequestCompleteCallback) {
     options = {};
   }
 
-  // Fetch the config (clientId & secret)
+  // This line is only for control purposes
   var config = ServiceConfiguration.configurations.findOne({service: 'line'});
   if (!config) {
     credentialRequestCompleteCallback && credentialRequestCompleteCallback(new ServiceConfiguration.ConfigError());
@@ -35,15 +35,9 @@ Line.requestCredential = function (options, credentialRequestCompleteCallback) {
   // Added on security used for the `state` param.
   var credentialToken = Random.secret();
   var loginStyle = OAuth._loginStyle('line', config, options);
-
   // Generate the oauth URL.
-
-  var loginUrl =
-    'https://access.line.me/dialog/oauth/weblogin' +
-    '?response_type=code' +
-    '&client_id=' + config.clientId +
-    '&redirect_uri=' + OAuth._redirectUri('line', config) +
-    '&state=' + OAuth._stateParam(loginStyle, credentialToken);
+    
+  var loginUrl = LineApi.getLoginUrl(OAuth._redirectUri('line', config), OAuth._stateParam(loginStyle, credentialToken));
 
   OAuth.launchLogin({
     loginService: "line",
